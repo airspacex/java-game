@@ -6,10 +6,12 @@ import java.util.List;
 
 public class CalMachine {
 	List<int[][]> stepList;
+	int[] spaceSymbol;
 
 	public CalMachine() {
 		stepList = new ArrayList<int[][]>();
 		//stepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
+		spaceSymbol = new int[]{0,0};
 	}
 	
 	public String GetSymbolbyID(int id){
@@ -41,7 +43,7 @@ public class CalMachine {
 		int spaceIndex = -1;
 		for (int i=0;i<currentStep.length;i++){
 			//if (currentStep[i][0] == 0)
-			if (Arrays.equals(currentStep[i], new int[]{0,0}))
+			if (Arrays.equals(currentStep[i], spaceSymbol))
 				spaceIndex = i;
 		}	
 		// 4 condition exchange: l1, l2, r1, r2
