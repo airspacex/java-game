@@ -7,11 +7,13 @@ import java.util.List;
 public class CalMachine {
 	List<int[][]> stepList;
 	int[] spaceSymbol;
+	int[][] destinationStep;
 
 	public CalMachine() {
 		stepList = new ArrayList<int[][]>();
 		//stepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
 		spaceSymbol = new int[]{0,0};
+		destinationStep = new int[][]{{2,5},{2,4},{2,3},{2,2},{2,1},{0,0},{1,1},{1,2},{1,3},{1,4},{1,5}};
 	}
 	
 	public String GetSymbolbyID(int id){
