@@ -52,23 +52,24 @@ public class CalMachine {
 		//l1
 		nextStep = currentStep.clone();	
 		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -1))
-			stepList.add(nextStep);
+			nextStepList.add(nextStep);
 		
 		nextStep = currentStep.clone();	
-		exchangeSymbol(nextStep, spaceIndex, spaceIndex -2);
-		stepList.add(nextStep);
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -2))
+			nextStepList.add(nextStep);
 		
 		nextStep = currentStep.clone();	
-		exchangeSymbol(nextStep, spaceIndex, spaceIndex +1);
-		stepList.add(nextStep);
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +1))
+			nextStepList.add(nextStep);
 		
 		nextStep = currentStep.clone();	
-		exchangeSymbol(nextStep, spaceIndex, spaceIndex +2);
-		stepList.add(nextStep);		
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +2))
+			nextStepList.add(nextStep);		
 		
 		
 		//printStep(currentStep);		
-		nextStepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
+		//nextStepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
+		printStepList(nextStepList);
 
 		//System.out.println(spaceIndex);
 		// loop the step
