@@ -2,44 +2,110 @@ package com.airspace.xogame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class CalMachine {
+	List<int[][]> historyList;
 	List<int[][]> stepList;
+	List<int[][]> destinationStepList;
 	int[] spaceSymbol;
 	int[][] destinationStep;
 
 	public CalMachine() {
+		historyList = new ArrayList<int[][]>();
 		stepList = new ArrayList<int[][]>();
+		destinationStepList = new ArrayList<int[][]>();
 		//stepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
 		spaceSymbol = new int[]{0,0};
-		destinationStep = new int[][]{{2,5},{2,4},{2,3},{2,2},{2,1},{0,0},{1,1},{1,2},{1,3},{1,4},{1,5}};
+		destinationStep = new int[][]{{2,1},{2,2},{2,3},{2,4},{2,5},{0,0},{1,5},{1,4},{1,3},{1,2},{1,1}};
 	}
 	
 	public String GetSymbolbyID(int id){
 		if (id == 0 )
 			return "_";
 		else if (id == 1)
-			return "X";
-		else if (id == 2)
 			return "O";
+		else if (id == 2)
+			return "X";
 		else
 			return "E";		
 	}
 	
+	public boolean checkSequenceOValid(int[][] currentStep){
+		int currentIndex = 5;
+		for(int i=0;i<currentStep.length;i++){
+			if (currentStep[i][0] == 1){  // 1 means O
+				if (currentStep[i][1] > currentIndex)
+					return false;
+				else
+					currentIndex = currentStep[i][1];
+			}				
+		}
+		return true;
+	}
+	
+	public boolean checkSequenceXValid(int[][] currentStep){
+		int currentIndex = 5;
+		for(int i=currentStep.length-1;i>=0;i--){
+			if (currentStep[i][0] == 2){  // 1 means O
+				if (currentStep[i][1] > currentIndex)
+					return false;
+				else
+					currentIndex = currentStep[i][1];
+			}				
+		}
+		return true;		
+	}	
+	
 	public boolean exchangeSymbol(int[][] currentStep, int posSpace, int posSymbol){
+		// check valid condition return false
+		if (posSymbol <0 || posSymbol > 10 || posSpace < 0 || posSpace > 10)
+			return false;
+		
 		int[] tempSymbol;
 		tempSymbol = currentStep[posSymbol];
 		currentStep[posSymbol] = currentStep[posSpace];
 		currentStep[posSpace] = tempSymbol;
+		
+		if (!(checkSequenceOValid(currentStep) && checkSequenceXValid(currentStep))){
+			return false;
+		}
+		
 		return true;
 	}
 	
+	public boolean CheckHistoryExistStep(int[][] currentStep){
+		Iterator<int[][]> itr = this.historyList.iterator();
+		while (itr.hasNext()) {
+		    int[][] element = itr.next();
+		    if (Arrays.equals(element, currentStep))
+		    	return true;
+		}
+
+		return false;
+	}
+	
 	public void Calculate(int[][] currentStep){
-		// get the list of step
-		List<int[][]> nextStepList = new ArrayList<int[][]>();
-		int[][] nextStep;
+		//System.out.print("check:");
+		printStep(currentStep);
+		System.out.print(this.historyList.size());
+		System.out.println();
 		
+		// get the list of step
+		//List<int[][]> nextStepList = new ArrayList<int[][]>();
+		int[][] nextStep;
+			
+		if (Arrays.equals(currentStep, this.destinationStep)){
+			destinationStepList = new ArrayList<int[][]>(this.stepList);
+			printStepList(this.stepList);
+			//return;
+		}
+		
+		if (destinationStepList.size() > 0){
+			return;
+		}
+			
 
 		//int spaceIndex = Arrays.asList(currentStep).indexOf(new int[]{0,0});
 		int spaceIndex = -1;
@@ -47,33 +113,49 @@ public class CalMachine {
 			//if (currentStep[i][0] == 0)
 			if (Arrays.equals(currentStep[i], spaceSymbol))
 				spaceIndex = i;
-		}	
+		}
+		
+		this.historyList.add(currentStep);
+		
+		this.stepList.add(currentStep);
 		// 4 condition exchange: l1, l2, r1, r2
-		//l1
+		//l1	
 		nextStep = currentStep.clone();	
-		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -1))
-			nextStepList.add(nextStep);
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -1) &&
+			!CheckHistoryExistStep(nextStep)){
+			//this.printStep(nextStep);
+			Calculate(nextStep);						
+		}
 		
 		nextStep = currentStep.clone();	
-		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -2))
-			nextStepList.add(nextStep);
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex -2) &&
+			!CheckHistoryExistStep(nextStep)){
+			//this.printStep(nextStep);
+			Calculate(nextStep);
+		}			
 		
 		nextStep = currentStep.clone();	
-		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +1))
-			nextStepList.add(nextStep);
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +1) &&
+			!CheckHistoryExistStep(nextStep)){
+			//this.printStep(nextStep);
+			Calculate(nextStep);
+		}			
 		
 		nextStep = currentStep.clone();	
-		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +2))
-			nextStepList.add(nextStep);		
-		
+		if (exchangeSymbol(nextStep, spaceIndex, spaceIndex +2) &&
+			!CheckHistoryExistStep(nextStep)){
+			//this.printStep(nextStep);
+			Calculate(nextStep);
+		}				
+		this.stepList.remove(this.stepList.size()-1);
 		
 		//printStep(currentStep);		
 		//nextStepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
-		printStepList(nextStepList);
+		//printStepList(nextStepList);
 
 		//System.out.println(spaceIndex);
 		// loop the step
-		stepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});		
+		//stepList.add(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});		
 		
 	}
 	
@@ -90,7 +172,7 @@ public class CalMachine {
 		for(int j=0; j< showStep.length; j++){
 			System.out.print(GetSymbolbyID(showStep[j][0])+showStep[j][1]+",");
 		}
-		System.out.println();
+		//System.out.println();
 	}	
 
 }
