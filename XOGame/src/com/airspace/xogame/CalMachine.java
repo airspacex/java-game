@@ -88,17 +88,20 @@ public class CalMachine {
 	
 	public void Calculate(int[][] currentStep){
 		//System.out.print("check:");
-		printStep(currentStep);
-		System.out.print(this.historyList.size());
-		System.out.println();
+		//printStep(currentStep);
+		//System.out.print(this.historyList.size());
+		//System.out.println();
 		
 		// get the list of step
 		//List<int[][]> nextStepList = new ArrayList<int[][]>();
 		int[][] nextStep;
 			
-		if (Arrays.equals(currentStep, this.destinationStep)){
+		if (Arrays.deepEquals(currentStep, this.destinationStep)){
 			destinationStepList = new ArrayList<int[][]>(this.stepList);
-			printStepList(this.stepList);
+			destinationStepList.add(currentStep);
+			//System.out.println("-----------------------start");
+			//printStepList(this.stepList);
+			//System.out.println("-----------------------end");
 			//return;
 		}
 		

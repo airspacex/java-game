@@ -9,6 +9,8 @@ public class main {
 		// TODO Auto-generated method stub
 		CalMachine calMachine = new CalMachine();
 		calMachine.Calculate(new int[][] {{1,5},{1,4},{1,3},{1,2},{1,1},{0,0},{2,1},{2,2},{2,3},{2,4},{2,5}});
+		
+		//calMachine.Calculate(new int[][] {{2,1},{2,2},{2,3},{2,4},{2,5},{0,0},{1,5},{1,4},{1,3},{1,2},{1,1}});
 		calMachine.printStepList(calMachine.destinationStepList);
 		
 //		if (calMachine.checkSequenceOValid(
