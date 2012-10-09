@@ -6,8 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CalMachine {
+	// mark all history step, avoid meet duplication step;
 	List<int[][]> historyList;
+	// the main step list;
 	List<int[][]> stepList;
+	// mark the "final" result step
 	List<int[][]> destinationStepList;
 	int[] spaceSymbol;
 	int[][] destinationStep;
@@ -83,10 +86,11 @@ public class CalMachine {
 		if (posSymbol <0 || posSymbol > 10 || posSpace < 0 || posSpace > 10)
 			return false;
 		
-		// o cannot move left, x cannot move to right
+		// o cannot move left
 		if (currentStep[posSymbol][0]==1 && posSpace < posSymbol){
 			return false;
 		}
+		//x cannot move to right
 		if (currentStep[posSymbol][0]==2 && posSpace > posSymbol){
 			return false;
 		}		
@@ -96,6 +100,7 @@ public class CalMachine {
 		currentStep[posSymbol] = currentStep[posSpace];
 		currentStep[posSpace] = tempSymbol;
 		
+		// broken the sequence rule
 		if (!(checkSequenceOValid(currentStep) && checkSequenceXValid(currentStep))){
 			return false;
 		}
