@@ -63,6 +63,8 @@ public class CalMachine {
 		if (posSymbol <0 || posSymbol > 10 || posSpace < 0 || posSpace > 10)
 			return false;
 		
+		// o cannot move left, x cannot move to right  
+		
 		int[] tempSymbol;
 		tempSymbol = currentStep[posSymbol];
 		currentStep[posSymbol] = currentStep[posSpace];
