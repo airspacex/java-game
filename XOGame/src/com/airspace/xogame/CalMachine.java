@@ -32,6 +32,26 @@ public class CalMachine {
 			return "E";		
 	}
 	
+	public String GetSymbolbyID2(int[] id){
+		String outputString;
+		
+		if (id[0] == 0 )
+			outputString = "_";
+		else if (id[0] == 1)
+			outputString = "O";
+		else if (id[0] == 2)
+			outputString = "X";
+		else
+			outputString = "E";
+		
+		if (id[1] == 0)
+			outputString += "_";
+		else
+			outputString += String.valueOf(id[1]);
+		
+		return outputString;		
+	}	
+	
 	public boolean checkSequenceOValid(int[][] currentStep){
 		int currentIndex = 5;
 		for(int i=0;i<currentStep.length;i++){
@@ -63,7 +83,13 @@ public class CalMachine {
 		if (posSymbol <0 || posSymbol > 10 || posSpace < 0 || posSpace > 10)
 			return false;
 		
-		// o cannot move left, x cannot move to right  
+		// o cannot move left, x cannot move to right
+		if (currentStep[posSymbol][0]==1 && posSpace < posSymbol){
+			return false;
+		}
+		if (currentStep[posSymbol][0]==2 && posSpace > posSymbol){
+			return false;
+		}		
 		
 		int[] tempSymbol;
 		tempSymbol = currentStep[posSymbol];
@@ -167,7 +193,9 @@ public class CalMachine {
 	void printStepList(List<int[][]> showList){
 		for (int i = 0; i < showList.size(); i++) {
 			for(int j=0; j< ((int[][])showList.get(i)).length; j++){
-				System.out.print(GetSymbolbyID(showList.get(i)[j][0])+showList.get(i)[j][1]+",");
+				//System.out.print(GetSymbolbyID(showList.get(i)[j][0])+showList.get(i)[j][1]+",");
+				System.out.print(GetSymbolbyID2(showList.get(i)[j])+",");
+				
 			}
 			System.out.println();
 		}
@@ -175,7 +203,8 @@ public class CalMachine {
 	
 	void printStep(int[][] showStep){
 		for(int j=0; j< showStep.length; j++){
-			System.out.print(GetSymbolbyID(showStep[j][0])+showStep[j][1]+",");
+			//System.out.print(GetSymbolbyID(showStep[j][0])+showStep[j][1]+",");
+			System.out.print(GetSymbolbyID2(showStep[j])+",");
 		}
 		//System.out.println();
 	}	
